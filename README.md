@@ -3,7 +3,7 @@ Welcome to Modern Robotic Programming!  This repository will contain all class-s
 and will also function as a help center for students.
 
 #### Git Help
-This course will heavily rely on the use of Github and Git in general.  If you are not comfortable with forking, cloning, pushing, pulling, merging, and pull-requesting, you should definitely read up on them and practice how they're done.
+This course will heavily rely on the use of Github and Git in general.  If you are not comfortable with forking, cloning, branching, pushing, pulling, merging, and pull-requesting, you should definitely read up on them and practice how they're done.
 
 #### Student Help / Issues
 If you have a question about an assignment that is not pressing, please open up an issue on this repository 
