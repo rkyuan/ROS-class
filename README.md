@@ -2,6 +2,9 @@
 Welcome to Modern Robotic Programming!  This repository will contain all class-specific software, documentation,
 and will also function as a help center for students.
 
+#### Git Help
+This course will heavily rely on the use of Github and Git in general.  If you are not comfortable with forking, cloning, pushing, pulling, merging, and pull-requesting, you should definitely read up on them and practice how they're done.
+
 #### Student Help / Issues
 If you have a question about an assignment that is not pressing, please open up an issue on this repository 
 (<a href="https://help.github.com/articles/creating-an-issue/">How-To</a>).  This will allow the instructor, TA, and perhaps
