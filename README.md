@@ -2,6 +2,10 @@
 Welcome to Modern Robotic Programming!  This repository will contain all class-specific software, documentation,
 and will also function as a help center for students.
 
+#### Wiki
+For a continually evolving set of information about the class, please refer to the Wiki which can be access on the sidebar 
+to the right.
+
 #### Git Help
 This course will heavily rely on the use of Github and Git in general.  If you are not comfortable with forking, cloning, branching, pushing, pulling, merging, and pull-requesting, you should definitely read up on them and practice how they're done.
 
@@ -17,6 +21,3 @@ Dr. Wyatt Newman (Instructor)
 Luc Bettaieb (Teaching Assistant)
 <br>bettaieb@case.edu
 
-#### Wiki
-For a continually evolving set of information about the class, please refer to the Wiki which can be access on the sidebar 
-to the right.
