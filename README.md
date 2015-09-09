@@ -14,6 +14,8 @@ If you have a question about an assignment that is not pressing, please open up 
 (<a href="https://help.github.com/articles/creating-an-issue/">How-To</a>).  This will allow the instructor, TA, and perhaps
 other students to assist you in a public setting.  If the issue is pressing and there has been no response, you may send an email.
 
+a silly change
+
 #### People
 Dr. Wyatt Newman (Instructor)
 <br>wsn@case.edu
