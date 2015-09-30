@@ -28,7 +28,7 @@ void posCmdCB(const std_msgs::Float64& pos_cmd_msg)
 
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "example_rviz_marker");
+    ros::init(argc, argv, "minimal_joint_controller");
     ros::NodeHandle nh;
     ros::Duration half_sec(0.5);
     
