@@ -20,5 +20,5 @@ textfile="$(find minimal_robot_description)/minimal_robot_w_sensor.urdf"/>
 <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
 
 <node pkg="rviz" type="rviz" name="rviz"/>
-
+ 
 </launch>
