@@ -19,8 +19,8 @@ catkin_simple()
 cs_add_library(plane_fitter src/plane_fitter.cpp)   
 
 # Executables
-# cs_add_executable(example src/example.cpp)
-# target_link_library(example my_lib)
+cs_add_executable(plane_fitter_main src/plane_fitter_main.cpp)
+target_link_libraries(plane_fitter_main plane_fitter ${catkin_LIBRARIES})
 
 cs_install()
 cs_export()
