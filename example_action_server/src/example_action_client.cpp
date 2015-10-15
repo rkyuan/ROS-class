@@ -1,7 +1,7 @@
 // example_action_client: 
 // wsn, October, 2014
 
-#include<ros/ros.h>
+#include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 
 //this #include refers to the new "action" message defined for this package
@@ -10,7 +10,7 @@
 // these are referred to by the root name (demo) and appended name (Action)
 // If you write a new client of the server in this package, you will need to include example_action_server in your package.xml,
 // and include the header file below
-#include<example_action_server/demoAction.h>
+#include <example_action_server/demoAction.h>
 
 
 // This function will be called once when the goal completes
