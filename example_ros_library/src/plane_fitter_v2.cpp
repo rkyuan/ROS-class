@@ -106,7 +106,7 @@ void PlaneFitter::generate_planar_points(Eigen::Vector3d normal_vec,double dist,
     //  1, 0, 0; 
     //  0;0;1]
     Eigen::Matrix3d Rot_z;
-    Rot_z.row(0)<<0,1,0;  // populate the first row--shorthand method
+    Rot_z.row(0)<<0,-1,0;  // populate the first row--shorthand method
     Rot_z.row(1)<<1,0,0;  //second row
     Rot_z.row(2)<<0,0,1;  // yada, yada
     //cout<<"Rot_z: "<<endl;  
