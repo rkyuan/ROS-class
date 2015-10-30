@@ -7,6 +7,7 @@
 
 class interestingMoves{
 	public:
+		interestingMoves();
 		void populateMove1(trajectory_msgs::JointTrajectory &des_trajectory);
 		void populateMove2(trajectory_msgs::JointTrajectory &des_trajectory);
 		void populateMove3(trajectory_msgs::JointTrajectory &des_trajectory);

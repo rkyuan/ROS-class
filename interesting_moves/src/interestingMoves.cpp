@@ -2,7 +2,9 @@
 
 
 
+interestingMoves::interestingMoves(){
 
+}
 void interestingMove1(trajectory_msgs::JointTrajectory &des_trajectory){
 
 }
