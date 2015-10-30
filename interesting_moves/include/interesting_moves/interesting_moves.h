@@ -3,13 +3,13 @@
 #define INTERESTING_MOVES_H
 
 #include <ros/ros.h>
+#include <trajectory_msgs/JointTrajectory.h>
 
 class interestingMoves{
-public:
-	interestingMoves();
-	populateMove1(trajectory_msgs::JointTrajectory &des_trajectory);
-	populateMove2(trajectory_msgs::JointTrajectory &des_trajectory);
-	populateMove3(trajectory_msgs::JointTrajectory &des_trajectory);
+	public:
+		void populateMove1(trajectory_msgs::JointTrajectory &des_trajectory);
+		void populateMove2(trajectory_msgs::JointTrajectory &des_trajectory);
+		void populateMove3(trajectory_msgs::JointTrajectory &des_trajectory);
 
 };
 
