@@ -1,0 +1,20 @@
+<launch>
+
+<include file ="$(find gazebo_ros)/launch/empty_world.launch"/>
+
+<!--rosrun gazebo_ros spawn_model  -file wavyRobot.urdf -urdf -model wavyBot-->
+  <!-- spawn robot in gazebo -->
+  <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-file $(find wavyArm)/wavyRobot.urdf -urdf -model wavyBot"/>
+
+  <!-- send robot urdf to param server -->
+<param name="robot_description" 
+textfile="$(find wavyArm)/wavyRobot.urdf"/>
+
+
+
+
+<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+
+<node pkg="rviz" type="rviz" name="rviz"/>
+ 
+</launch>
