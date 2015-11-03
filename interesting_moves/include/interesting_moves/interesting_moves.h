@@ -4,6 +4,7 @@
 
 #include <ros/ros.h>
 #include <trajectory_msgs/JointTrajectory.h>
+#include <baxter_traj_streamer/trajAction.h>
 
 class interestingMoves{
 	public:
