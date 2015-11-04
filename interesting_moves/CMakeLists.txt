@@ -3,6 +3,9 @@ project(interesting_moves)
 
 find_package(catkin_simple REQUIRED)
 find_package(cmake_modules REQUIRED)
+find_package(Eigen REQUIRED)
+find_package(actionlib REQUIRED)
+find_package(catkin REQUIRED COMPONENTS actionlib_msgs)
 
 
 include_directories(

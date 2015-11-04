@@ -65,7 +65,10 @@ int main(int argc, char** argv) {
         // here is a "goal" object compatible with the server, as defined in example_action_server/action
         baxter_traj_streamer::trajGoal goal; 
         // does this work?  copy traj to goal:
-        goal.trajectory = des_trajectory;
+        trajectory_msgs::JointTrajectory interestingTraj;
+        interesting_moves mover();
+        mover.populateMove1(interestingTraj);
+        goal.trajectory = interestingTraj;
         //cout<<"ready to connect to action server; enter 1: ";
         //cin>>ans;
         // use the name of our server, which is: trajActionServer (named in traj_interpolator_as.cpp)

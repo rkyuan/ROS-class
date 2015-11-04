@@ -1,7 +1,7 @@
 #include <interesting_moves/interesting_moves.h>
 
 
-
+using namespace Eigen;
 interestingMoves::interestingMoves(){
 
 }
