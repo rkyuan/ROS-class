@@ -39,7 +39,38 @@
   <!--   <run_depend>message_runtime</run_depend> -->
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
-  <buildtool_depend>catkin</buildtool_depend>
+   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>Eigen</build_depend>
+  <build_depend>baxter_core_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+   <build_depend>cwru_action</build_depend>  
+   <build_depend>cwru_srv</build_depend>   
+ <build_depend>message_generation</build_depend>
+   <build_depend>actionlib_msgs</build_depend>
+   <build_depend>actionlib</build_depend>  
+<build_depend>simple_action_client</build_depend>
+<build_depend>baxter_traj_streamer</build_depend>
+<build_depend>interesting_moves</build_depend>
+<build_depend>interestingMoves</build_depend>
+     
+  <run_depend>Eigen</run_depend>
+  <run_depend>baxter_core_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>trajectory_msgs</run_depend>
+  <run_depend>cwru_srv</run_depend>
+  <run_depend>cwru_action</run_depend>  
+  <run_depend>message_runtime</run_depend>
+   <run_depend>actionlib_msgs</run_depend>    
+   <run_depend>actionlib</run_depend> 
+<run_depend>simple_action_client</run_depend>
+<run_depend>baxter_traj_streamer</run_depend>
+<run_depend>interesting_moves</run_depend>
+<run_depend>interestingMoves</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -2,10 +2,8 @@
 
 
 using namespace Eigen;
-interestingMoves::interestingMoves(){
 
-}
-void interestingMove1(trajectory_msgs::JointTrajectory &des_trajectory){
+void populateMove1(trajectory_msgs::JointTrajectory &des_trajectory,Baxter_traj_streamer &baxter_traj_streamer){
 	Vectorq7x1 q_pre_pose;
 	q_pre_pose<< -0.907528, -0.111813,   2.06622,    1.8737,    -1.295,   2.00164,  -2.87179;
 	std::vector<Eigen::VectorXd> des_path;
@@ -16,9 +14,9 @@ void interestingMove1(trajectory_msgs::JointTrajectory &des_trajectory){
 	baxter_traj_streamer.stuff_trajectory(des_path, des_trajectory);
 
 }
-void interestingMove2(trajectory_msgs::JointTrajectory &des_trajectory){
+void populateMove2(trajectory_msgs::JointTrajectory &des_trajectory,Baxter_traj_streamer &baxter_traj_streamer){
 	
 }
-void interestingMove3(trajectory_msgs::JointTrajectory &des_trajectory){
+void populateMove3(trajectory_msgs::JointTrajectory &des_trajectory,Baxter_traj_streamer &baxter_traj_streamer){
 	
 }
