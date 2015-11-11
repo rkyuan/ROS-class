@@ -11,7 +11,7 @@
 #include <cwru_action/trajAction.h>
 #include <interesting_moves/interesting_moves.h>
 
-using namespace std;
+
 #define VECTOR_DIM 7 // e.g., a 7-dof vector
 
 // This function will be called once when the goal completes
@@ -41,8 +41,8 @@ int main(int argc, char** argv) {
     cwru_action::trajGoal goal; 
     // does this work?  copy traj to goal:
     trajectory_msgs::JointTrajectory interestingTraj;
-    interestingMoves mover;
-    mover.populateMove1(interestingTraj,baxter_traj_streamer);
+    interestingMoves mover(&nh);
+    mover.populateMove1(interestingTraj);
     goal.trajectory = interestingTraj;
     //cout<<"ready to connect to action server; enter 1: ";
     //cin>>ans;
