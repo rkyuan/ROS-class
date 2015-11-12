@@ -29,8 +29,6 @@ int main(int argc, char** argv) {
         int g_count = 0;
                 int ans;
 
-    Baxter_traj_streamer baxter_traj_streamer(&nh); //instantiate a Baxter_traj_streamer object and pass in pointer to nodehandle for constructor to use  
-    // warm up the joint-state callbacks;
     cout<<"warming up callbacks..."<<endl;
     for (int i=0;i<100;i++) {
         ros::spinOnce();
@@ -39,7 +37,6 @@ int main(int argc, char** argv) {
     }
 
     cwru_action::trajGoal goal; 
-    // does this work?  copy traj to goal:
     trajectory_msgs::JointTrajectory interestingTraj;
     interestingMoves mover(&nh);
     mover.populateMove1(interestingTraj);
@@ -72,8 +69,19 @@ int main(int argc, char** argv) {
     //action_client.sendGoal(goal); // simple example--send goal, but do not specify callbacks
     action_client.sendGoal(goal); // we could also name additional callback functions here, if desired
     //    action_client.sendGoal(goal, &doneCb, &activeCb, &feedbackCb); //e.g., like this
+
+
+    
     
     bool finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));
+    mover.populateMove2(interestingTraj);
+    goal.trajectory = interestingTraj;
+    action_client.sendGoal(goal);
+    finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));
+     mover.populateMove3(interestingTraj);
+    goal.trajectory = interestingTraj;
+    action_client.sendGoal(goal);
+    finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));
     //bool finished_before_timeout = action_client.waitForResult(); // wait forever...
     if (!finished_before_timeout) {
         ROS_WARN("giving up waiting on result for goal number %d",g_count);
