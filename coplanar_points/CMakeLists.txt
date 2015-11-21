@@ -5,7 +5,7 @@ project(coplanar_points)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  pcl_conversations
+  ##pcl_conversations
   pcl_ros
   roscpp
   sensor_msgs
@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+ find_package(catkin REQUIRED COMPONENTS cwru_pcl_utils)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -118,6 +118,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${cwru_pcl_utils_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -131,16 +132,16 @@ include_directories(
 # add_dependencies(coplanar_points ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(coplanar_points_node src/coplanar_points_node.cpp)
+add_executable(coplanar_points src/coplanar_points.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(coplanar_points_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(coplanar_points_node
-#   ${catkin_LIBRARIES}
-# )
+ target_link_libraries(coplanar_points cwru_pcl_utils
+   ${catkin_LIBRARIES}
+ )
 
 #############
 ## Install ##
@@ -156,19 +157,19 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-## Mark executables and/or libraries for installation
+# Mark executables and/or libraries for installation
 # install(TARGETS coplanar_points coplanar_points_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
+# Mark cpp header files for installation
+ install(DIRECTORY include/cwru_pcl_utils/
+   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+   FILES_MATCHING PATTERN "*.h"
+   PATTERN ".svn" EXCLUDE
+ )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
