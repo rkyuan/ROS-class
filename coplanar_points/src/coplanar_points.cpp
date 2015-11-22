@@ -38,6 +38,7 @@
 
 sensor_msgs::PointCloud2 g_lastCloud;
 ros::NodeHandle *g_nh;
+ros::Publisher *g_pub;
 
 
 double distPointToPlane(Eigen::Vector3f point, Eigen::Vector3f plane_normal, double planeDist ){
@@ -48,6 +49,7 @@ double distPointToPlane(Eigen::Vector3f point, Eigen::Vector3f plane_normal, dou
 }
 
 void selectPointCloudCB(const sensor_msgs::PointCloud2 & message_holder){
+	//ROS_INFO("1");
 	pcl::PointCloud<pcl::PointXYZ> sample;
 	pcl::fromROSMsg(message_holder,sample);
 	Eigen::Vector3f plane_normal;
@@ -79,10 +81,18 @@ void selectPointCloudCB(const sensor_msgs::PointCloud2 & message_holder){
     for (int i =0; i<lastCloud.points.size(); i++){
     	double dist = distPointToPlane(lastCloud.points[i].getVector3fMap(),plane_normal,planeDist);
     	if (abs(dist)<0.01){
-    		//add to cloud
+    		output.push_back(lastCloud.points[i]);
     	}
     }
 
+    sensor_msgs::PointCloud2 msgOut;
+
+    pcl::toROSMsg(output,msgOut);
+
+    msgOut.header.frame_id = g_lastCloud.header.frame_id;
+    
+    g_pub->publish(msgOut);
+    //ROS_INFO("2");
 
 }
 
@@ -99,6 +109,8 @@ int main(int argc, char **argv){
 	ros::init(argc,argv,"coplanar_points");
 	ros::NodeHandle nh;
 	g_nh = &nh;
+	ros::Publisher planepub = nh.advertise<sensor_msgs::PointCloud2>("coplanar_points", 1);
+	g_pub = &planepub;
 	ros::Subscriber my_subscriber_object= nh.subscribe("rviz_selected_points",1,selectPointCloudCB);
 	ros::Subscriber my_subscriber_object2= nh.subscribe("kinect/depth/points",1,updateKinectCB);
 	ros::spin();
