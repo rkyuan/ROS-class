@@ -37,14 +37,53 @@
 #include <cwru_pcl_utils/cwru_pcl_utils.h>
 
 sensor_msgs::PointCloud2 g_lastCloud;
+ros::NodeHandle *g_nh;
+
+
+double distPointToPlane(Eigen::Vector3f point, Eigen::Vector3f plane_normal, double planeDist ){
+	double dist;
+	Eigen::Vector3f plane_point = plane_normal*planeDist;
+	dist = plane_normal.dot(point-plane_point);
+	return dist;
+}
 
 void selectPointCloudCB(const sensor_msgs::PointCloud2 & message_holder){
 	pcl::PointCloud<pcl::PointXYZ> sample;
 	pcl::fromROSMsg(message_holder,sample);
 	Eigen::Vector3f plane_normal;
 	double planeDist;
-	cwru_pcl_utils::cwru_pcl_utils helper;
-	helper.fit_points_to_plane(sample,plane_normal,planeDist);
+	CwruPclUtils helper(g_nh);
+	
+
+
+	Eigen::MatrixXf points_mat;
+    Eigen::Vector3f cloud_pt;
+    //populate points_mat from cloud data;
+
+    int npts = sample.points.size();
+    points_mat.resize(3, npts);
+
+    //somewhat odd notation: getVector3fMap() reading OR WRITING points from/to a pointcloud, with conversions to/from Eigen
+    for (int i = 0; i < npts; ++i) {
+        cloud_pt = sample.points[i].getVector3fMap();
+        points_mat.col(i) = cloud_pt;
+    }
+
+    //points_mat = sample.getMatrixXfMap();
+    helper.fit_points_to_plane(points_mat,plane_normal,planeDist);
+
+    pcl::PointCloud<pcl::PointXYZ> output;
+    pcl::PointCloud<pcl::PointXYZ> lastCloud;
+    pcl::fromROSMsg(g_lastCloud,lastCloud);
+
+    for (int i =0; i<lastCloud.points.size(); i++){
+    	double dist = distPointToPlane(lastCloud.points[i].getVector3fMap(),plane_normal,planeDist);
+    	if (abs(dist)<0.01){
+    		//add to cloud
+    	}
+    }
+
+
 }
 
 void updateKinectCB(const sensor_msgs::PointCloud2 & message_holder){
@@ -55,8 +94,12 @@ void updateKinectCB(const sensor_msgs::PointCloud2 & message_holder){
 
 
 
+
 int main(int argc, char **argv){
+	ros::init(argc,argv,"coplanar_points");
 	ros::NodeHandle nh;
+	g_nh = &nh;
 	ros::Subscriber my_subscriber_object= nh.subscribe("rviz_selected_points",1,selectPointCloudCB);
-	ros::Subscriber my_subscriber_object2= nh.subscribe("kinect?",1,updateKinectCB);
+	ros::Subscriber my_subscriber_object2= nh.subscribe("kinect/depth/points",1,updateKinectCB);
+	ros::spin();
 }
