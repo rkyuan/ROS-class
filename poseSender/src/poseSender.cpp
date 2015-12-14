@@ -36,14 +36,7 @@ int main(int argc, char** argv) {
         ros::Duration(0.01).sleep();
     }
 
-    cwru_action::trajGoal goal; 
-    trajectory_msgs::JointTrajectory interestingTraj;
-    interestingMoves mover(&nh);
-    mover.populateMove1(interestingTraj);
-    goal.trajectory = interestingTraj;
-    //cout<<"ready to connect to action server; enter 1: ";
-    //cin>>ans;
-    // use the name of our server, which is: trajActionServer (named in traj_interpolator_as.cpp)
+
     actionlib::SimpleActionClient<cwru_action::trajAction> action_client("trajActionServer", true);
         
     // attempt to connect to the server:
@@ -61,35 +54,34 @@ int main(int argc, char** argv) {
    
     ROS_INFO("connected to action server");  // if here, then we connected to the server;
 
-    //while(true) {
-    // stuff a goal message:
-    //g_count++;
-    //goal.traj_id = g_count; // this merely sequentially numbers the goals sent
-    //ROS_INFO("sending traj_id %d",g_count);
-    //action_client.sendGoal(goal); // simple example--send goal, but do not specify callbacks
-    action_client.sendGoal(goal); // we could also name additional callback functions here, if desired
-    //    action_client.sendGoal(goal, &doneCb, &activeCb, &feedbackCb); //e.g., like this
+    cwru_action::trajGoal goal; 
+    trajectory_msgs::JointTrajectory interestingTraj;
+    interestingMoves mover(&nh);
+    mover.populateMove1(interestingTraj);
+    goal.trajectory = interestingTraj;
+    //cout<<"ready to connect to action server; enter 1: ";
+    //cin>>ans;
+    // use the name of our server, which is: trajActionServer (named in traj_interpolator_as.cpp)
+    
+
+    
+    action_client.sendGoal(goal); 
+    
 
 
     
     
-    bool finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));
+    bool finished_before_timeout = action_client.waitForResult(ros::Duration(8.5));
     mover.populateMove2(interestingTraj);
     goal.trajectory = interestingTraj;
     action_client.sendGoal(goal);
-    finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));
+    finished_before_timeout = action_client.waitForResult(ros::Duration(8.5));
      mover.populateMove3(interestingTraj);
     goal.trajectory = interestingTraj;
     action_client.sendGoal(goal);
     finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));
-    //bool finished_before_timeout = action_client.waitForResult(); // wait forever...
-    if (!finished_before_timeout) {
-        ROS_WARN("giving up waiting on result for goal number %d",g_count);
-        return 0;
-    }
-    else {
-        ROS_INFO("finished before timeout");
-    }
+    finished_before_timeout = action_client.waitForResult(); // wait forever...
+    
     
     //}
 
