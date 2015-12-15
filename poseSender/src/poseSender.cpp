@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
     goal.trajectory = interestingTraj;
     action_client.sendGoal(goal);
     finished_before_timeout = action_client.waitForResult(ros::Duration(8.5));
-     mover.populateMove3(interestingTraj);
+    mover.populateMove3(interestingTraj);
     goal.trajectory = interestingTraj;
     action_client.sendGoal(goal);
     finished_before_timeout = action_client.waitForResult(ros::Duration(5.0));

@@ -1,4 +1,5 @@
 
+#ifndef INTERESTING_MOVES_H
 #define INTERESTING_MOVES_H
 
 #include <ros/ros.h>
