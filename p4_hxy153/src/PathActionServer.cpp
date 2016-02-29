@@ -13,7 +13,7 @@
 // Automated header generation creates multiple headers for message I/O
 // These are referred to by the root name (demo) and appended name (Action)
 #include <p4_hxy153/robotPathAction.h>
-
+#include <geometry_msgs/Twist.h>
 
 class PathActionServer {
 private:
@@ -74,6 +74,9 @@ PathActionServer::PathActionServer() :
 // e.g.,  "demoAction" is auto-generated from (our) base name "demo" and generic name "Action"
 void PathActionServer::executeCB(const actionlib::SimpleActionServer<p4_hxy153::robotPathAction>::GoalConstPtr& goal) {
     ROS_INFO("in executeCB");
+
+    ros::Publisher commander = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+
    //  //ROS_INFO("goal input is: %d", goal->input);
    //  //do work here: this is where your interesting code goes
    //  ros::Rate timer(1.0); // 1Hz timer
