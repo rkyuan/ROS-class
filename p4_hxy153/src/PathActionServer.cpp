@@ -31,6 +31,10 @@ private:
     p4_hxy153::robotPathFeedback feedback_; // for feedback 
     //  use: as_.publishFeedback(feedback_); to send incremental feedback to the client
     //int countdown_val_;
+    float angle = 0;
+    float x = 0;
+    float y = 0;
+    float dt = 0.05;
 
 
 public:
@@ -75,7 +79,18 @@ PathActionServer::PathActionServer() :
 void PathActionServer::executeCB(const actionlib::SimpleActionServer<p4_hxy153::robotPathAction>::GoalConstPtr& goal) {
     ROS_INFO("in executeCB");
 
+
+
     ros::Publisher commander = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+    geometry_msgs::Twist command;
+
+    for (int i = 0; i < sizeof(goal);i++){
+      //get angle
+      
+    }
+    
+
+
 
    //  //ROS_INFO("goal input is: %d", goal->input);
    //  //do work here: this is where your interesting code goes
