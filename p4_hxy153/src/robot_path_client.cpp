@@ -9,8 +9,6 @@
 
 using namespace std;
 
-//bool alarm = false;
-
 
 void doneCb(const actionlib::SimpleClientGoalState& state,
         const p4_hxy153::robotPathResultConstPtr& result) {

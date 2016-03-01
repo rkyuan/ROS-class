@@ -14,6 +14,9 @@
 // These are referred to by the root name (demo) and appended name (Action)
 #include <p4_hxy153/robotPathAction.h>
 #include <geometry_msgs/Twist.h>
+#include <nav_msgs/Path.h>
+#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseStamped.h>
 
 class PathActionServer {
 private:
@@ -31,10 +34,13 @@ private:
     p4_hxy153::robotPathFeedback feedback_; // for feedback 
     //  use: as_.publishFeedback(feedback_); to send incremental feedback to the client
     //int countdown_val_;
-    float angle = 0;
-    float x = 0;
-    float y = 0;
-    float dt = 0.05;
+    float angle;
+    float x;
+    float y;
+    float dt;
+
+	float dangle(geometry_msgs::Pose);  
+	float dlin(geometry_msgs::Pose);  
 
 
 public:
@@ -79,14 +85,38 @@ PathActionServer::PathActionServer() :
 void PathActionServer::executeCB(const actionlib::SimpleActionServer<p4_hxy153::robotPathAction>::GoalConstPtr& goal) {
     ROS_INFO("in executeCB");
 
-
-
+    dt = 0.05;
+    double speed = 1.0;
+    double yaw_rate = 0.5;
+	ros::Rate loop_timer(1/dt);
     ros::Publisher commander = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-    geometry_msgs::Twist command;
+    
 
-    for (int i = 0; i < sizeof(goal);i++){
-      //get angle
-      
+    for (int i = 0; i < 4/*sizeof(goal->input.poses)*/;i++){
+    //first turn towards goal
+      geometry_msgs::Twist command;
+      float turn = dangle(goal->input.poses[i].pose);
+      if (turn>0) command.angular.z = yaw_rate;
+      if (turn<0) command.angular.z = yaw_rate*-1.0;
+      double timer = 0.0;
+      while(timer<turn/yaw_rate) {
+          commander.publish(command);
+          timer+=dt;
+          loop_timer.sleep();
+          }
+      //then advance
+      command.angular.z = 0;
+      command.linear.x = speed;
+      timer = 0.0;
+      float dist = dlin(goal->input.poses[i].pose);
+      while(dist/speed) {
+	      commander.publish(command);
+	      timer+=dt;
+	      loop_timer.sleep();
+      }
+      x = goal->input.poses[i].pose.position.x;
+      y = goal->input.poses[i].pose.position.y;
+
     }
     
 
@@ -134,3 +164,23 @@ int main(int argc, char** argv) {
     return 0;
 }
 
+float PathActionServer::dangle(geometry_msgs::Pose p){
+	float dy = p.position.y - y;
+	float dx = p.position.x - x;
+	float goal_angle = atan2(dy,dx);
+	//take min angle;
+	float angleDiff = goal_angle - angle;
+	if (angleDiff>3.14159) angleDiff -= 2*3.14159;
+	if (angleDiff<-3.14159) angleDiff += 2*3.14159;
+	angle = goal_angle;
+	return angleDiff;
+}
+
+
+float PathActionServer::dlin(geometry_msgs::Pose p){
+	float dx = p.position.x - x;
+	float dy = p.position.y - y;
+
+	float dist = sqrt(pow(dx,2)+pow(dy,2));
+	return dist;
+}
