@@ -5,14 +5,26 @@
 #include <nav_msgs/Path.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseStamped.h>
+#include <std_msgs/Bool.h>
+#include <vector>
 
 
 using namespace std;
 
+bool g_lidar_alarm=false;
+bool g_done = false;
+
+void alarmCallback(const std_msgs::Bool& alarm_msg) 
+{ 
+  g_lidar_alarm = alarm_msg.data; //make the alarm status global, so main() can use it
+  if (g_lidar_alarm) {
+     ROS_INFO("LIDAR alarm received!"); 
+  }
+} 
 
 void doneCb(const actionlib::SimpleClientGoalState& state,
         const p4_hxy153::robotPathResultConstPtr& result) {
-    
+    g_done = true;
 }
 
 
@@ -35,6 +47,7 @@ int main(int argc, char** argv) {
         
         // use the name of our server, which is: timer_action (named in example_action_server_w_fdbk.cpp)
         // the "true" argument says that we want our new client to run as a separate thread (a good idea)
+        ros::Subscriber alarm_subscriber = n.subscribe("lidar_alarm",1,alarmCallback);
         actionlib::SimpleActionClient<p4_hxy153::robotPathAction>action_client("path_follower", true);
         
         // attempt to connect to the server: need to put a test here, since client might launch before server
@@ -51,19 +64,53 @@ int main(int argc, char** argv) {
 
 
         p4_hxy153::robotPathGoal goal;
-        geometry_msgs::PoseStamped waypoints[4];
-        geometry_msgs::Pose p;
-        p.position.x = 2;
-        waypoints[0].pose = p;
-        p.position.y = 2;
-        waypoints[1].pose = p;
-        p.position.x = 0;
-        waypoints[2].pose = p;
-        p.position.y = 0;
-        waypoints[3].pose = p;
+        std::vector<geometry_msgs::PoseStamped> waypoints;
+        geometry_msgs::PoseStamped p;
+        //waypoints.push_back(p);
+        for(int i = 0; i < 3; i++){
+            p.pose.position.x = 5;
+            waypoints.push_back(p);
+            p.pose.position.y = 5;
+            waypoints.push_back(p);
+            p.pose.position.x = 0;
+            waypoints.push_back(p);
+            p.pose.position.y = 0;
+            waypoints.push_back(p);
+        }
+        goal.input.poses = waypoints;
         
 
+
         action_client.sendGoal(goal, &doneCb, &activeCb, &feedbackCb);
+
+        while(ros::ok){
+            ros::spinOnce();
+            if (g_done){
+                break;
+            }
+            if(g_lidar_alarm){
+                //g_lidar_alarm=false;
+                action_client.cancelGoal();
+                ROS_WARN("ABORT!");
+                //waypoints.push_back(p);
+                waypoints.clear();
+                for(int i = 0; i < 1; i++){
+                    p.pose.position.x = -3;
+                    waypoints.push_back(p);
+                    p.pose.position.y = -3;
+                    waypoints.push_back(p);
+                    p.pose.position.x = 0;
+                    waypoints.push_back(p);
+                    p.pose.position.y = 0;
+                    waypoints.push_back(p);
+                }
+                goal.input.poses = waypoints;
+                action_client.sendGoal(goal, &doneCb, &activeCb, &feedbackCb);
+                break;
+                
+            }
+
+        }
         //check lidar loop
         
         // int countdown_goal = 1; //user will specify a timer value

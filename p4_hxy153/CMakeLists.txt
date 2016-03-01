@@ -31,6 +31,7 @@ catkin_simple()
 # may add more of these lines for more nodes from the same package
  cs_add_executable(PathActionServer src/PathActionServer.cpp)
 cs_add_executable(robot_path_client src/robot_path_client.cpp)
+cs_add_executable(action_lidar_alarm src/action_lidar_alarm.cpp)
 
 #the following is required, if desire to link a node in this package with a library created in this same package
 # edit the arguments to reference the named node and named library within this package
