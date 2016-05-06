@@ -222,7 +222,7 @@ void SteeringController::lin_steering_algorithm() {
     
     // DEBUG OUTPUT...
     ROS_INFO("des_state_phi, odom_phi, heading err = %f, %f, %f", des_state_phi_,odom_phi_,heading_err);
-    ROS_INFO("lateral err, trip dist err = %f, %f",lateral_err,trip_dist_err);
+    ROS_INFO("desired x,y = %f, %f",dx,dy);
     // DEFINITELY COMMENT OUT ALL cout<< OPERATIONS FOR REAL-TIME CODE
     //std::cout<<des_xy_vec_<<std::endl;
     //std::cout<<odom_xy_vec_<<std::endl;
@@ -238,6 +238,7 @@ void SteeringController::lin_steering_algorithm() {
      // do something clever with this information     
     
     controller_speed = des_state_vel_ + K_TRIP_DIST*trip_dist_err; //you call that clever ?!?!?!? should speed up/slow down to null out 
+    controller_speed - MAX_SPEED*sat(controller_speed/MAX_SPEED);
     //controller_omega = des_state_omega_; //ditto
     controller_omega = des_state_omega_ + K_PHI*heading_err + K_DISP*lateral_err;
     
